@@ -690,7 +690,7 @@ advanced_settings() {
   else
     SSH_AUTHORIZED_KEY=""
   fi
-  if (whiptail --backtitle "Proxmox VE Helper Scripts" --defaultno --title "VERBOSE MODE" --yesno "Enable Verbose Mode?" 10 58); then
+  if (whiptail --backtitle "Proxmox VE Helper Scripts" --defaultyes --title "VERBOSE MODE" --yesno "Enable Verbose Mode?" 10 58); then
     VERB="yes"
   else
     VERB="no"
