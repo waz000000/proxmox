@@ -1078,7 +1078,6 @@ install_script() {
   shell_check
   root_check
   arch_check
-  ssh_check
   maxkeys_check
   diagnostics_check
 
