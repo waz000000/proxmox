@@ -32,6 +32,8 @@ function update_script() {
     msg_ok "Stopped ${APP} LXC"
 
     msg_info "Updating ${APP} LXC"
+    $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
     rm -rf /usr/local/bin/*
     curl -fsSL "$(curl -fsSL https://api.github.com/repos/autobrr/autobrr/releases/latest | grep download | grep linux_x86_64 | cut -d\" -f4)" -o $(basename "$(curl -fsSL https://api.github.com/repos/autobrr/autobrr/releases/latest | grep download | grep linux_x86_64 | cut -d\" -f4)")
     tar -C /usr/local/bin -xzf autobrr*.tar.gz

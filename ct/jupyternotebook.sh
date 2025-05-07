@@ -25,6 +25,8 @@ function update_script() {
     check_container_resources
 
     msg_info "Updating ${APP} LXC"
+    $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
     $STD apt-get update
     $STD apt-get install -y upgrade
     $STD pip3 install jupyter --upgrade

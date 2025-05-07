@@ -24,6 +24,7 @@ function update_script() {
     check_container_storage
     check_container_resources
     msg_info "Updating ${APP} LXC"
+    $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
 
     if command -v ghost &>/dev/null; then
         current_version=$(ghost version | grep 'Ghost-CLI version' | awk '{print $3}')

@@ -20,19 +20,21 @@ color
 catch_errors
 
 function update_script() {
-     header_info
-     check_container_storage
-     check_container_resources
-     if [[ ! -d /usr/lib/jellyfin ]]; then
-          msg_error "No ${APP} Installation Found!"
-          exit
-     fi
-     msg_info "Updating ${APP} LXC"
-     $STD apt-get update
-     $STD apt-get -y upgrade
-     $STD apt-get -y --with-new-pkgs upgrade jellyfin jellyfin-server
-     msg_ok "Updated ${APP} LXC"
-     exit
+  header_info
+  check_container_storage
+  check_container_resources
+  if [[ ! -d /usr/lib/jellyfin ]]; then
+    msg_error "No ${APP} Installation Found!"
+    exit
+  fi
+  msg_info "Updating ${APP} LXC"
+  $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
+  $STD apt-get update
+  $STD apt-get -y upgrade
+  $STD apt-get -y --with-new-pkgs upgrade jellyfin jellyfin-server
+  msg_ok "Updated ${APP} LXC"
+  exit
 }
 
 start

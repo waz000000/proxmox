@@ -35,6 +35,8 @@ function update_script() {
     fi
   fi
   msg_info "Updating ${APP} LXC"
+  $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
   $STD npm update -g n8n
   systemctl restart n8n
   msg_ok "Updated Successfully"

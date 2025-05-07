@@ -33,6 +33,8 @@ function update_script() {
     if [ "${RELEASE}" != "$(cat /opt/${APP}_version.txt)" ] || [ ! -f /opt/${APP}_version.txt ]; then
         DOWNLOAD_URL="https://github.com/CorentinTh/it-tools/releases/download/${RELEASE}/it-tools-${RELEASE#v}.zip"
         msg_info "Updating ${APP} LXC"
+        $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
         curl -fsSL -o it-tools.zip "$DOWNLOAD_URL"
         mkdir -p /usr/share/nginx/html
         rm -rf /usr/share/nginx/html/*

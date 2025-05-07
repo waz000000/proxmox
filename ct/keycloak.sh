@@ -28,6 +28,7 @@ function update_script() {
     exit
   fi
   msg_info "Updating ${APP} LXC"
+  $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
 
   msg_info "Updating packages"
   $STD apt-get update

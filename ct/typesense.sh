@@ -30,6 +30,8 @@ function update_script() {
     RELEASE=$(curl -fsSL https://api.github.com/repos/typesense/typesense/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
     if [[ ! -f /opt/${APP}_version.txt ]] || [[ "${RELEASE}" != "$(cat /opt/${APP}_version.txt)" ]]; then
         msg_info "Updating ${APP} LXC"
+        $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
         $STD apt-get update
         $STD apt-get -y upgrade
         msg_ok "Updated Successfully"

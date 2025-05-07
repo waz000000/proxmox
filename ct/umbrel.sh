@@ -24,6 +24,8 @@ function update_script() {
   check_container_storage
   check_container_resources
   msg_info "Updating ${APP} LXC"
+  $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
   $STD apt-get update
   $STD apt-get -y upgrade
   msg_ok "Updated ${APP} LXC"
