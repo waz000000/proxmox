@@ -28,7 +28,7 @@ function update_script() {
     exit
   fi
   msg_info "Updating ${APP} LXC"
-  $STD sudo bash -c 'echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >> /etc/apt/sources.list'
+  sudo bash -c 'echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >> /etc/apt/sources.list'
   $STD apt-get update
   $STD apt-get -y upgrade
   $STD apt-get -y --with-new-pkgs upgrade jellyfin jellyfin-server
