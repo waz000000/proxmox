@@ -213,6 +213,8 @@ EOF
   msg_ok "Updated Container OS"
 
   msg_info "Installing core dependencies"
+  $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
+
   $STD apt-get update
   $STD apt-get install -y sudo curl mc gnupg2
   source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/tools.func)
