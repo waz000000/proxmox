@@ -169,7 +169,8 @@ motd_ssh() {
   echo -e "echo -e \"${TAB}${OS}${YW} OS: ${GN}${OS_NAME} - Version: ${OS_VERSION}${CL}\"" >>"$PROFILE_FILE"
   echo -e "echo -e \"${TAB}${HOSTNAME}${YW} Hostname: ${GN}\$(hostname)${CL}\"" >>"$PROFILE_FILE"
   echo -e "echo -e \"${TAB}${INFO}${YW} IP Address: ${GN}\$(ip -4 addr show eth0 | awk '/inet / {print \$2}' | cut -d/ -f1 | head -n 1)${CL}\"" >>"$PROFILE_FILE"
-
+  echo -e "echo -e \"mp0: /media/jelly,mp=/media/jelly\"" >>"$PROFILE_FILE"
+  echo -e "echo -e \"mp0: /media/jelly2,mp=/media/jelly2"" >>"$PROFILE_FILE"
   # Configure SSH if enabled
   if [[ "${SSH_ROOT}" == "yes" ]]; then
     # Enable sshd service

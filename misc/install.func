@@ -241,6 +241,8 @@ motd_ssh() {
   echo -e "echo -e \"${TAB}${OS}${YW} OS: ${GN}${OS_NAME} - Version: ${OS_VERSION}${CL}\"" >>"$PROFILE_FILE"
   echo -e "echo -e \"${TAB}${HOSTNAME}${YW} Hostname: ${GN}\$(hostname)${CL}\"" >>"$PROFILE_FILE"
   echo -e "echo -e \"${TAB}${INFO}${YW} IP Address: ${GN}\$(hostname -I | awk '{print \$1}')${CL}\"" >>"$PROFILE_FILE"
+  echo -e "echo -e \"mp0: /media/jelly,mp=/media/jelly\"" >>"$PROFILE_FILE"
+  echo -e "echo -e \"mp0: /media/jelly2,mp=/media/jelly2"" >>"$PROFILE_FILE"
 
   # Disable default MOTD scripts
   chmod -x /etc/update-motd.d/*
