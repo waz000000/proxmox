@@ -8,4 +8,6 @@ apt-get install -y build-essential gcc dirmngr ca-certificates software-properti
 apt-get install -y nvidia-driver
 apt-get install -y cuda-driver
 apt-get install -y cuda
+nvidia-smi
+sleep 3
 reboot
