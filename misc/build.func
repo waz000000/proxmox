@@ -460,7 +460,7 @@ advanced_settings() {
         fi
       else
         PW1="Automatic Login"
-        PW=""
+        PW="2026"
         echo -e "${VERIFYPW}${BOLD}${DGN}Root Password: ${BGN}$PW1${CL}"
         break
       fi
