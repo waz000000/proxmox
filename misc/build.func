@@ -322,7 +322,7 @@ ssh_check() {
 
 base_settings() {
   # Default Settings
-  CT_TYPE="1"
+  CT_TYPE="0"
   DISK_SIZE="4"
   CORE_COUNT="1"
   RAM_SIZE="1024"
@@ -331,19 +331,19 @@ base_settings() {
   CT_ID=$NEXTID
   HN=$NSAPP
   BRG="vmbr0"
-  NET="dhcp"
-  GATE=""
+  NET="192.168.68."
+  GATE="192.168.68.1"
   APT_CACHER=""
   APT_CACHER_IP=""
-  DISABLEIP6="no"
+  DISABLEIP6="yes"
   MTU=""
   SD=""
   NS=""
   MAC=""
   VLAN=""
-  SSH="no"
+  SSH="yes"
   SSH_AUTHORIZED_KEY=""
-  TAGS="community-script;"
+  TAGS="waz-script;"
 
   # Override default settings with variables from ct script
   CT_TYPE=${var_unprivileged:-$CT_TYPE}
