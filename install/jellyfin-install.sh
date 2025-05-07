@@ -15,16 +15,17 @@ msg_info "Installing Dependencies"
 $STD apt-get install -y gpg
 msg_ok "Installed Dependencies"
 
-msg_info "Setting Up Hardware Acceleration"
-$STD apt-get -y install {va-driver-all,ocl-icd-libopencl1,intel-opencl-icd,vainfo,intel-gpu-tools}
-if [[ "$CTTYPE" == "0" ]]; then
-  chgrp video /dev/dri
-  chmod 755 /dev/dri
-  chmod 660 /dev/dri/*
-  $STD adduser $(id -u -n) video
-  $STD adduser $(id -u -n) render
-fi
-msg_ok "Set Up Hardware Acceleration"
+msg_info "Installing Nvidia"
+echo "deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware" >>/etc/apt/sources.list
+apt update
+apt install build-essential gcc dirmngr ca-certificates software-properties-common apt-transport-https dkms curl -y
+curl -fSsL https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor | tee /usr/share/keyrings/nvidia-drivers.gpg >/dev/null 2>&1
+echo 'deb [signed-by=/usr/share/keyrings/nvidia-drivers.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /' | tee /etc/apt/sources.list.d/nvidia-drivers.list
+apt update
+apt install nvidia-driver -y
+apt install cuda-drivers -y
+apt install cuda -y
+msg_ok "Installed Nvidia"
 
 msg_info "Installing Jellyfin"
 VERSION="$(awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release)"

@@ -1365,17 +1365,6 @@ EOF
   # This starts the container and executes <app>-install.sh
   msg_info "Starting LXC Container"
   pct start "$CTID"
-  sleep 3
-  if [[ "$APP" == "Channels" || "$APP" == "Emby" || "$APP" == "ErsatzTV" || "$APP" == "Frigate" || "$APP" == "Jellyfin" || "$APP" == "Plex" || "$APP" == "Scrypted" || "$APP" == "Tdarr" || "$APP" == "Unmanic" || "$APP" == "Ollama" || "$APP" == "FileFlows" ]]; then
-  pct exec "$CTID" -- echo "deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware" >>/etc/apt/sources.list
-  pct exec "$CTID" -- apt update
-  pct exec "$CTID" -- apt install build-essential gcc dirmngr ca-certificates software-properties-common apt-transport-https dkms curl -y
-  pct exec "$CTID" -- curl -fSsL https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor | tee /usr/share/keyrings/nvidia-drivers.gpg >/dev/null 2>&1
-  pct exec "$CTID" -- echo 'deb [signed-by=/usr/share/keyrings/nvidia-drivers.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /' | tee /etc/apt/sources.list.d/nvidia-drivers.list
-  pct exec "$CTID" -- apt update
-  pct exec "$CTID" -- apt install nvidia-driver -y
-  pct exec "$CTID" -- apt install cuda-drivers -y
-  pct exec "$CTID" -- apt install cuda -y
   msg_ok "Started LXC Container"
   if [ "$var_os" == "alpine" ]; then
     sleep 3
