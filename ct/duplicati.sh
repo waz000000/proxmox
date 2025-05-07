@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: tremor021
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -34,7 +34,7 @@ function update_script() {
         msg_ok "Stopped $APP"
         msg_info "Updating $APP to v${RELEASE}"
         curl -fsSL "https://github.com/duplicati/duplicati/releases/download/v${RELEASE}/duplicati-${RELEASE}-linux-x64-gui.deb" -o $(basename "https://github.com/duplicati/duplicati/releases/download/v${RELEASE}/duplicati-${RELEASE}-linux-x64-gui.deb")
-        $STD dpkg -i duplicati-${RELEASE}-linux-x64-gui.deb
+        $STD dpkg -i duplicati-"${RELEASE}"-linux-x64-gui.deb
         echo "${RELEASE}" >/opt/${APP}_version.txt
         msg_ok "Updated $APP to v${RELEASE}"
 
@@ -43,7 +43,7 @@ function update_script() {
         msg_ok "Started $APP"
 
         msg_info "Cleaning Up"
-        rm -rf ~/duplicati-${RELEASE}-linux-x64-gui.deb
+        rm -rf ~/duplicati-"${RELEASE}"-linux-x64-gui.deb
         msg_ok "Cleanup Completed"
 
         msg_ok "Update Successful"

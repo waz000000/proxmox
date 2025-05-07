@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -52,7 +52,7 @@ function update_script() {
 
   msg_info "Downloading NPM v${RELEASE}"
   curl -fsSL "https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE}" | tar -xz
-  cd nginx-proxy-manager-"${RELEASE}"
+  cd nginx-proxy-manager-"${RELEASE}" || exit
   msg_ok "Downloaded NPM v${RELEASE}"
 
   msg_info "Setting up Enviroment"
@@ -103,7 +103,7 @@ function update_script() {
   msg_ok "Setup Enviroment"
 
   msg_info "Building Frontend"
-  cd ./frontend
+  cd ./frontend || exit
   $STD pnpm install
   $STD pnpm upgrade
   $STD pnpm run build
@@ -128,7 +128,7 @@ function update_script() {
 }
 EOF
   fi
-  cd /app
+  cd /app || exit
   $STD pnpm install
   msg_ok "Initialized Backend"
 

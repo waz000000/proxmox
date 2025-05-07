@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -31,7 +31,7 @@ function update_script() {
     NODE_VERSION="22"
     NODE_MODULE="yarn@latest"
     install_node_and_modules
-    
+
     msg_info "Stopping ${APP}"
     systemctl stop linkwarden
     msg_ok "Stopped ${APP}"
@@ -39,21 +39,21 @@ function update_script() {
     msg_info "Updating Rust"
     $STD apt-get install -y build-essential
     $STD curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source $HOME/.cargo/env
+    source "$HOME"/.cargo/env
     echo 'export PATH=/usr/local/cargo/bin:$PATH' >>/etc/profile
     source /etc/profile
     $STD cargo install monolith
     msg_ok "Updated Rust"
 
     msg_info "Updating ${APP} to ${RELEASE}"
-    cd /opt
+    cd /opt || exit
     mv /opt/linkwarden/.env /opt/.env
     rm -rf /opt/linkwarden
     RELEASE=$(curl -fsSL https://api.github.com/repos/linkwarden/linkwarden/releases/latest | grep "tag_name" | awk '{print substr($2, 2, length($2)-3) }')
-    curl -fsSL "https://github.com/linkwarden/linkwarden/archive/refs/tags/${RELEASE}.zip" -o ${RELEASE}.zip
-    unzip -q ${RELEASE}.zip
-    mv linkwarden-${RELEASE:1} /opt/linkwarden
-    cd /opt/linkwarden
+    curl -fsSL "https://github.com/linkwarden/linkwarden/archive/refs/tags/${RELEASE}.zip" -o "${RELEASE}".zip
+    unzip -q "${RELEASE}".zip
+    mv linkwarden-"${RELEASE:1}" /opt/linkwarden
+    cd /opt/linkwarden || exit
     $STD yarn
     $STD npx playwright install-deps
     $STD yarn playwright install
@@ -68,7 +68,7 @@ function update_script() {
     systemctl start linkwarden
     msg_ok "Started ${APP}"
     msg_info "Cleaning up"
-    rm -rf /opt/${RELEASE}.zip
+    rm -rf /opt/"${RELEASE}".zip
     msg_ok "Cleaned"
     msg_ok "Updated Successfully"
   else

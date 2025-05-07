@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -32,20 +32,20 @@ function update_script() {
     msg_ok "Stopped ${APP}"
 
     msg_info "Backing up assets directory"
-    cd ~
+    cd ~ || exit
     mkdir -p assets-backup
     cp -R /opt/homer/assets/. assets-backup
     msg_ok "Backed up assets directory"
 
     msg_info "Updating ${APP}"
     rm -rf /opt/homer/*
-    cd /opt/homer
+    cd /opt/homer || exit
     curl -fsSL "https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip" -o $(basename "https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip")
     $STD unzip homer.zip
     msg_ok "Updated ${APP}"
 
     msg_info "Restoring assets directory"
-    cd ~
+    cd ~ || exit
     cp -Rf assets-backup/. /opt/homer/assets/
     msg_ok "Restored assets directory"
 

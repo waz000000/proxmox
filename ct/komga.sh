@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: madelyn (DysfunctionalProgramming)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -37,7 +37,7 @@ function update_script() {
     msg_info "Updating ${APP} to ${RELEASE}"
     curl -fsSL "https://github.com/gotson/komga/releases/download/${RELEASE}/komga-${RELEASE}.jar" -o $(basename "https://github.com/gotson/komga/releases/download/${RELEASE}/komga-${RELEASE}.jar")
     rm -rf /opt/komga/komga.jar
-    mv -f komga-${RELEASE}.jar /opt/komga/komga.jar
+    mv -f komga-"${RELEASE}".jar /opt/komga/komga.jar
     echo "${RELEASE}" >/opt/${APP}_version.txt
     msg_ok "Updated ${APP} to ${RELEASE}"
 

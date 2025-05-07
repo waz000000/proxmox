@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: Slaviša Arežina (tremor021)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -40,7 +40,7 @@ function update_script() {
     curl -fsSL "https://github.com/outline/outline/archive/refs/tags/v${RELEASE}.tar.gz" -o "$temp_file"
     tar zxf "$temp_file"
     mv outline-"${RELEASE}" /opt/outline
-    cd /opt/outline
+    cd /opt/outline || exit
     export NODE_ENV=development
     export NODE_OPTIONS="--max-old-space-size=3584"
     $STD yarn install --frozen-lockfile

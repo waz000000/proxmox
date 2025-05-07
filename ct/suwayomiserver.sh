@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: tremor021
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -35,7 +35,7 @@ function update_script() {
         systemctl stop suwayomi-server
         msg_ok "Stopped $APP"
         msg_info "Updating $APP to v${RELEASE}"
-        cd /tmp
+        cd /tmp || exit
         URL=$(curl -fsSL https://api.github.com/repos/Suwayomi/Suwayomi-Server/releases/latest | grep "browser_download_url" | awk '{print substr($2, 2, length($2)-2) }' | tail -n+2 | head -n 1)
         curl -fsSL "$URL" -o $(basename "$URL")
         $STD dpkg -i /tmp/*.deb

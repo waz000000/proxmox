@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: Slaviša Arežina (tremor021)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -38,10 +38,10 @@ function update_script() {
         temp_dir=$(mktemp -d)
         cp -f /opt/cryptpad/config/config.js /opt/config.js
         curl -fsSL "https://github.com/cryptpad/cryptpad/archive/refs/tags/${RELEASE}.tar.gz" -o "$temp_dir/cryptpad-${RELEASE}.tar.gz"
-        cd "$temp_dir"
+        cd "$temp_dir" || exit
         tar zxf "cryptpad-${RELEASE}.tar.gz"
         cp -rf "cryptpad-${RELEASE}"/* /opt/cryptpad
-        cd /opt/cryptpad
+        cd /opt/cryptpad || exit
         $STD npm ci
         $STD npm run install:components
         $STD npm run build
@@ -50,7 +50,7 @@ function update_script() {
         msg_ok "Updated $APP to ${RELEASE}"
 
         msg_info "Cleaning Up"
-        rm -rf $temp_dir
+        rm -rf "$temp_dir"
         msg_ok "Cleanup Completed"
 
         msg_info "Starting $APP"

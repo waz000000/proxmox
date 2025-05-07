@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -78,8 +78,8 @@ function update_script() {
 
     msg_info "Installing Cronicle Worker"
     mkdir -p /opt/cronicle
-    cd /opt/cronicle
-    $STD tar zxvf <(curl -fsSL https://github.com/jhuckaby/Cronicle/archive/${LATEST}.tar.gz) --strip-components 1
+    cd /opt/cronicle || exit
+    $STD tar zxvf <(curl -fsSL https://github.com/jhuckaby/Cronicle/archive/"${LATEST}".tar.gz) --strip-components 1
     $STD npm install
     $STD node bin/build.js dist
     sed -i "s/localhost:3012/${IP}:3012/g" /opt/cronicle/conf/config.json

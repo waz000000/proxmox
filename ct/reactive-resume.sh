@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: vhsdream
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -38,10 +38,10 @@ function update_script() {
         cp /opt/${APP}/.env /opt/rxresume.env
         res_tmp=$(mktemp)
         rm -rf /opt/${APP}
-        curl -fsSL "https://github.com/AmruthPillai/Reactive-Resume/archive/refs/tags/v${RELEASE}.zip" -O $res_tmp
-        unzip -q $res_tmp
-        mv ${APP}-${RELEASE}/ /opt/${APP}
-        cd /opt/${APP}
+        curl -fsSL "https://github.com/AmruthPillai/Reactive-Resume/archive/refs/tags/v${RELEASE}.zip" -O "$res_tmp"
+        unzip -q "$res_tmp"
+        mv ${APP}-"${RELEASE}"/ /opt/${APP}
+        cd /opt/${APP} || exit
         export PUPPETEER_SKIP_DOWNLOAD="true"
         export NEXT_TELEMETRY_DISABLED=1
         export CI="true"
@@ -54,7 +54,7 @@ function update_script() {
 
         msg_info "Updating Minio"
         systemctl stop minio
-        cd /tmp
+        cd /tmp || exit
         curl -fsSL https://dl.min.io/server/minio/release/linux-amd64/minio.deb -o minio.deb
         $STD dpkg -i minio.deb
         msg_ok "Updated Minio"
@@ -65,10 +65,10 @@ function update_script() {
         rm -rf browserless
         brwsr_tmp=$(mktemp)
         TAG=$(curl -fsSL https://api.github.com/repos/browserless/browserless/tags?per_page=1 | grep "name" | awk '{print substr($2, 3, length($2)-4) }')
-        curl -fsSL https://github.com/browserless/browserless/archive/refs/tags/v${TAG}.zip -O $brwsr_tmp
-        unzip -q $brwsr_tmp
-        mv browserless-${TAG}/ /opt/browserless
-        cd /opt/browserless
+        curl -fsSL https://github.com/browserless/browserless/archive/refs/tags/v"${TAG}".zip -O "$brwsr_tmp"
+        unzip -q "$brwsr_tmp"
+        mv browserless-"${TAG}"/ /opt/browserless
+        cd /opt/browserless || exit
         $STD npm install
         rm -rf src/routes/{chrome,edge,firefox,webkit}
         $STD node_modules/playwright-core/cli.js install --with-deps chromium
@@ -84,8 +84,8 @@ function update_script() {
 
         msg_info "Cleaning Up"
         rm -f /tmp/minio.deb
-        rm -f $brwsr_tmp
-        rm -f $res_tmp
+        rm -f "$brwsr_tmp"
+        rm -f "$res_tmp"
         msg_ok "Cleanup Completed"
 
         echo "${RELEASE}" >/opt/${APP}_version.txt

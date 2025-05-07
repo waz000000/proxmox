@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: MickLesk (Canbiz)
 # License: MIT
@@ -38,7 +38,7 @@ function update_script() {
     msg_ok "Updated LXC packages"
 
     msg_info "Updating ${APP}"
-    cd /opt
+    cd /opt || exit
     curl -fsSL "https://nextpvr.com/nextpvr-helper.deb" -o $(basename "https://nextpvr.com/nextpvr-helper.deb")
     $STD dpkg -i nextpvr-helper.deb
     msg_ok "Updated ${APP}"

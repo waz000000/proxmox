@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: Slaviša Arežina (tremor021)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -36,14 +36,14 @@ function update_script() {
 
         msg_info "Updating ${APP} to ${RELEASE}"
         temp_file=$(mktemp)
-curl -fsSL "https://github.com/jordan-dalby/ByteStash/archive/refs/tags/v${RELEASE}.tar.gz" -o "$temp_file"
-        tar zxf $temp_file
+        curl -fsSL "https://github.com/jordan-dalby/ByteStash/archive/refs/tags/v${RELEASE}.tar.gz" -o "$temp_file"
+        tar zxf "$temp_file"
         rm -rf /opt/bytestash/server/node_modules
         rm -rf /opt/bytestash/client/node_modules
-        cp -rf ByteStash-${RELEASE}/* /opt/bytestash
-        cd /opt/bytestash/server
+        cp -rf ByteStash-"${RELEASE}"/* /opt/bytestash
+        cd /opt/bytestash/server || exit
         $STD npm install
-        cd /opt/bytestash/client
+        cd /opt/bytestash/client || exit
         $STD npm install
         echo "${RELEASE}" >/opt/${APP}_version.txt
         msg_ok "Updated ${APP}"
@@ -54,7 +54,7 @@ curl -fsSL "https://github.com/jordan-dalby/ByteStash/archive/refs/tags/v${RELEA
         msg_ok "Started Services"
 
         msg_info "Cleaning Up"
-        rm -f $temp_file
+        rm -f "$temp_file"
         msg_ok "Cleaned"
         msg_ok "Updated Successfully"
     else

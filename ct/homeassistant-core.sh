@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: tteck (tteckster) | Co-Author: MickLesk (CanbiZ)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -59,7 +59,7 @@ function update_script() {
 
     msg_info "Updating Home Assistant"
     source /srv/homeassistant/bin/activate
-    $STD pip install ${BR}--upgrade homeassistant
+    $STD pip install "${BR}"--upgrade homeassistant
     msg_ok "Updated Home Assistant"
 
     msg_info "Starting Home Assistant"
@@ -74,7 +74,7 @@ function update_script() {
     msg_info "Installing Home Assistant Community Store (HACS)"
     $STD apt update
     $STD apt install -y unzip
-    cd .homeassistant
+    cd .homeassistant || exit
     $STD bash <(curl -fsSL https://get.hacs.xyz)
     msg_ok "Installed Home Assistant Community Store (HACS)"
     echo -e "\n Reboot Home Assistant and clear browser cache then Add HACS integration.\n"
@@ -85,7 +85,7 @@ function update_script() {
     read -r -p "Would you like to use No Authentication? <y/N> " prompt
     msg_info "Installing FileBrowser"
     RELEASE=$(curl -fsSL https://api.github.com/repos/filebrowser/filebrowser/releases/latest | grep -o '"tag_name": ".*"' | sed 's/"//g' | sed 's/tag_name: //g')
-    $STD curl -fsSL https://github.com/filebrowser/filebrowser/releases/download/$RELEASE/linux-amd64-filebrowser.tar.gz | tar -xzv -C /usr/local/bin
+    $STD curl -fsSL https://github.com/filebrowser/filebrowser/releases/download/"$RELEASE"/linux-amd64-filebrowser.tar.gz | tar -xzv -C /usr/local/bin
 
     if [[ "${prompt,,}" =~ ^(y|yes)$ ]]; then
       $STD filebrowser config init -a '0.0.0.0'

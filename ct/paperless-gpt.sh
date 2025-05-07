@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: MickLesk (CanbiZ)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -35,14 +35,14 @@ function update_script() {
 
         msg_info "Updating Paperless-GPT to ${RELEASE}"
         temp_file=$(mktemp)
-curl -fsSL "https://github.com/icereed/paperless-gpt/archive/refs/tags/v${RELEASE}.tar.gz" -o "$temp_file"
-        tar zxf $temp_file
+        curl -fsSL "https://github.com/icereed/paperless-gpt/archive/refs/tags/v${RELEASE}.tar.gz" -o "$temp_file"
+        tar zxf "$temp_file"
         rm -rf /opt/paperless-gpt
-        mv paperless-gpt-${RELEASE} /opt/paperless-gpt
-        cd /opt/paperless-gpt/web-app
+        mv paperless-gpt-"${RELEASE}" /opt/paperless-gpt
+        cd /opt/paperless-gpt/web-app || exit
         $STD npm install
         $STD npm run build
-        cd /opt/paperless-gpt
+        cd /opt/paperless-gpt || exit
         go mod download
         export CC=musl-gcc
         CGO_ENABLED=1 go build -tags musl -o /dev/null github.com/mattn/go-sqlite3
@@ -55,7 +55,7 @@ curl -fsSL "https://github.com/icereed/paperless-gpt/archive/refs/tags/v${RELEAS
         msg_ok "Started Service"
 
         msg_info "Cleaning Up"
-        rm -f $temp_file
+        rm -f "$temp_file"
         msg_ok "Cleanup Completed"
         msg_ok "Updated Successfully"
     else

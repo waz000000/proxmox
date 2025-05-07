@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: remz1337
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -39,23 +39,23 @@ function update_script() {
     curl -fsSL "${RELEASE}" -o "authentik.tar.gz"
     tar -xzf authentik.tar.gz -C /opt/authentik --strip-components 1 --overwrite
     rm -rf authentik.tar.gz
-    cd /opt/authentik/website
+    cd /opt/authentik/website || exit
     $STD npm install
     $STD npm run build-bundled
-    cd /opt/authentik/web
+    cd /opt/authentik/web || exit
     $STD npm install
     $STD npm run build
     msg_ok "Built ${APP} website"
 
     msg_info "Building ${APP} server"
-    cd /opt/authentik
+    cd /opt/authentik || exit
     go mod download
     go build -o /go/authentik ./cmd/server
     go build -o /opt/authentik/authentik-server /opt/authentik/cmd/server/
     msg_ok "Built ${APP} server"
 
     msg_info "Installing Python Dependencies"
-    cd /opt/authentik
+    cd /opt/authentik || exit
     $STD poetry install --only=main --no-ansi --no-interaction --no-root
     $STD poetry export --without-hashes --without-urls -f requirements.txt --output requirements.txt
     $STD pip install --no-cache-dir -r requirements.txt

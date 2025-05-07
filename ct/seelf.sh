@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: tremor021
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -41,9 +41,9 @@ function update_script() {
         export PATH=$PATH:/usr/local/go/bin
         source ~/.bashrc
         curl -fsSL "https://github.com/YuukanOO/seelf/archive/refs/tags/v${RELEASE}.tar.gz" -o $(basename "https://github.com/YuukanOO/seelf/archive/refs/tags/v${RELEASE}.tar.gz")
-        tar -xzf v${RELEASE}.tar.gz
-        cp -r seelf-${RELEASE}/ /opt/seelf
-        cd /opt/seelf
+        tar -xzf v"${RELEASE}".tar.gz
+        cp -r seelf-"${RELEASE}"/ /opt/seelf
+        cd /opt/seelf || exit
         $STD make build
         msg_ok "Updated $APP to v${RELEASE}"
 
@@ -54,7 +54,7 @@ function update_script() {
         # Cleaning up
         msg_info "Cleaning Up"
         rm -f ~/*.tar.gz
-        rm -rf ~/seelf-${RELEASE}
+        rm -rf ~/seelf-"${RELEASE}"
         msg_ok "Cleanup Completed"
 
         echo "${RELEASE}" >/opt/${APP}_version.txt
