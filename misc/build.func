@@ -1363,14 +1363,6 @@ EOF
       fi
     fi
   fi
-#adds nvidia
-if [ "$CT_TYPE" == "0" ]; then
-    if [[ "$APP" == "Channels" || "$APP" == "Emby" || "$APP" == "ErsatzTV" || "$APP" == "Frigate" || "$APP" == "Jellyfin" || "$APP" == "Plex" || "$APP" == "Scrypted" || "$APP" == "Tdarr" || "$APP" == "Unmanic" || "$APP" == "Ollama" || "$APP" == "FileFlows" ]]; then    
-        pct exec "$CTID" -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/ct/nvidia.sh)"
-    fi
-fi
-
-
 
   # This starts the container and executes <app>-install.sh
   msg_info "Starting LXC Container"
