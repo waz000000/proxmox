@@ -207,6 +207,7 @@ fi
 EOF
     chmod +x /usr/local/bin/apt-proxy-detect.sh
   fi
+  $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
   $STD apt-get update
   $STD apt-get -o Dpkg::Options::="--force-confold" -y dist-upgrade
   rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
@@ -214,7 +215,6 @@ EOF
 
   msg_info "Installing core dependencies"
   $STD echo "deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib" >>"/etc/apt/sources.list"
-
   $STD apt-get update
   $STD apt-get install -y sudo curl mc gnupg2
   source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/tools.func)
@@ -279,4 +279,12 @@ EOF
     chmod 700 /root/.ssh
     chmod 600 /root/.ssh/authorized_keys
   fi
+
+  #add none free to debian sources
+  if [[ "$OS_NAME" == "Debian" ]]; then
+    if ! grep -q "non-free non-free-firmware" /etc/apt/sources.list; then
+      sed -i 's/main/main non-free non-free-firmware/g' /etc/apt/sources.list
+    fi
+  fi
+
 }
