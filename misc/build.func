@@ -1208,6 +1208,13 @@ check_container_storage() {
 
 start() {
   source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/tools.func)
+  if command -v pveversion >/dev/null 2>&1; then
+      clear
+      exit_script
+      exit
+    fi
+    SPINNER_PID=""
+    install_script
   fi
 
   if ! command -v pveversion >/dev/null 2>&1; then
