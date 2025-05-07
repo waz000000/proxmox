@@ -1366,6 +1366,7 @@ EOF
   msg_info "Starting LXC Container"
   pct start "$CTID"
   sleep 3
+  if [[ "$APP" == "Channels" || "$APP" == "Emby" || "$APP" == "ErsatzTV" || "$APP" == "Frigate" || "$APP" == "Jellyfin" || "$APP" == "Plex" || "$APP" == "Scrypted" || "$APP" == "Tdarr" || "$APP" == "Unmanic" || "$APP" == "Ollama" || "$APP" == "FileFlows" ]]; then
   pct exec "$CTID" -- echo "deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware" >>/etc/apt/sources.list
   pct exec "$CTID" -- apt update
   pct exec "$CTID" -- apt install build-essential gcc dirmngr ca-certificates software-properties-common apt-transport-https dkms curl -y
@@ -1383,6 +1384,14 @@ http://dl-cdn.alpinelinux.org/alpine/latest-stable/main
 http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
 EOF'
     pct exec "$CTID" -- ash -c "apk add bash >/dev/null"
+  else
+   if [ "$var_os" == "alpine" ]; then
+    sleep 3
+    pct exec "$CTID" -- /bin/sh -c 'cat <<EOF >/etc/apk/repositories
+http://dl-cdn.alpinelinux.org/alpine/latest-stable/main
+http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
+EOF'
+  pct exec "$CTID" -- ash -c "apk add bash >/dev/null"
   fi
   lxc-attach -n "$CTID" -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/install/"$var_install".sh)" $?
 
