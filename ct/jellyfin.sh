@@ -32,7 +32,6 @@ function update_script() {
 msg_ok "Updated ${APP} LXC"
 exit
 }
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/ct/nvidia.sh)"
 start
 build_container
 description
