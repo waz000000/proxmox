@@ -244,6 +244,8 @@ motd_ssh() {
   echo -e "echo -e \"${TAB}${INFO}${YW} IP Address: ${GN}\$(hostname -I | awk '{print \$1}')${CL}\"" >>"$PROFILE_FILE"
   echo -e "echo -e \"mp0: /media/jelly,mp=/media/jelly\"" >>"$PROFILE_FILE"
   echo -e "echo -e \"mp0: /media/jelly2,mp=/media/jelly2\"" >>"$PROFILE_FILE"
+echo -e "echo -e \"wget https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/ct/nvidia.sh"" >>"$PROFILE_FILE"
+echo -e "echo -e \"./nvidia.sh"" >>"$PROFILE_FILE"
 
   # Disable default MOTD scripts
   chmod -x /etc/update-motd.d/*
