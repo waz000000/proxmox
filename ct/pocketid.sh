@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: Snarkenfaugister
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -40,21 +40,21 @@ function update_script() {
         msg_ok "Stopped $APP"
 
         msg_info "Updating $APP to v${RELEASE}"
-        cd /opt
+        cd /opt || exit
         cp -r /opt/pocket-id/backend/data /opt/data
         cp /opt/pocket-id/backend/.env /opt/backend.env
         cp /opt/pocket-id/frontend/.env /opt/frontend.env
         rm -r /opt/pocket-id
         curl -fsSL "https://github.com/pocket-id/pocket-id/archive/refs/tags/v${RELEASE}.zip" -o $(basename "https://github.com/pocket-id/pocket-id/archive/refs/tags/v${RELEASE}.zip")
-        unzip -q v${RELEASE}.zip
-        mv pocket-id-${RELEASE} /opt/pocket-id
+        unzip -q v"${RELEASE}".zip
+        mv pocket-id-"${RELEASE}" /opt/pocket-id
         mv /opt/data /opt/pocket-id/backend/data
         mv /opt/backend.env /opt/pocket-id/backend/.env
         mv /opt/frontend.env /opt/pocket-id/frontend/.env
 
-        cd /opt/pocket-id/backend/cmd
+        cd /opt/pocket-id/backend/cmd || exit
         go build -o ../pocket-id-backend
-        cd ../../frontend
+        cd ../../frontend || exit
         npm install
         npm run build
         msg_ok "Updated $APP to ${RELEASE}"
@@ -68,7 +68,7 @@ function update_script() {
 
         # Cleaning up
         msg_info "Cleaning Up"
-        rm -f /opt/v${RELEASE}.zip
+        rm -f /opt/v"${RELEASE}".zip
         msg_ok "Cleanup Completed"
 
         echo "${RELEASE}" >/opt/${APP}_version.txt

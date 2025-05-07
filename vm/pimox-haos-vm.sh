@@ -5,7 +5,7 @@
 # License: MIT
 # https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
-source /dev/stdin <<<$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/api.func)
+source /dev/stdin <<<$(curl -fsSL raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/api.func)
 
 function header_info {
   cat <<"EOF"
@@ -67,23 +67,23 @@ function error_exit() {
   local flag="${RD}‼ ERROR ${CL}$EXIT@$LINE"
   post_update_to_api "failed" "unknown"
   echo -e "$flag $msg" 1>&2
-  [ ! -z ${VMID-} ] && cleanup_vmid
-  exit $EXIT
+  [ ! -z "${VMID-}" ] && cleanup_vmid
+  exit "$EXIT"
 }
 function cleanup_vmid() {
-  if $(qm status $VMID &>/dev/null); then
-    if [ "$(qm status $VMID | awk '{print $2}')" == "running" ]; then
-      qm stop $VMID
+  if $(qm status "$VMID" &>/dev/null); then
+    if [ "$(qm status "$VMID" | awk '{print $2}')" == "running" ]; then
+      qm stop "$VMID"
     fi
-    qm destroy $VMID
+    qm destroy "$VMID"
   fi
 }
 function cleanup() {
   popd >/dev/null
-  rm -rf $TEMP_DIR
+  rm -rf "$TEMP_DIR"
 }
 TEMP_DIR=$(mktemp -d)
-pushd $TEMP_DIR >/dev/null
+pushd "$TEMP_DIR" >/dev/null
 if ! command -v whiptail &>/dev/null; then
   echo "Installing whiptail..."
   apt-get update &>/dev/null
@@ -151,9 +151,9 @@ function advanced_settings() {
     3>&1 1>&2 2>&3)
   exitstatus=$?
   if [ $exitstatus = 0 ]; then echo -e "${DGN}Using HAOS Version: ${BGN}$BRANCH${CL}"; fi
-  VMID=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Virtual Machine ID" 8 58 $NEXTID --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
+  VMID=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Virtual Machine ID" 8 58 "$NEXTID" --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
-  if [ -z $VMID ]; then
+  if [ -z "$VMID" ]; then
     VMID="$NEXTID"
     echo -e "${DGN}Virtual Machine: ${BGN}$VMID${CL}"
   else
@@ -166,20 +166,20 @@ function advanced_settings() {
       if [ $exitstatus = 0 ]; then echo -e "${DGN}Virtual Machine ID: ${BGN}$VMID${CL}"; fi
     fi
   fi
-  VM_NAME=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Hostname" 8 58 haos${BRANCH} --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
+  VM_NAME=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Hostname" 8 58 haos"${BRANCH}" --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
-  if [ -z $VM_NAME ]; then
+  if [ -z "$VM_NAME" ]; then
     HN="haos${BRANCH}"
     echo -e "${DGN}Using Hostname: ${BGN}$HN${CL}"
   else
     if [ $exitstatus = 0 ]; then
-      HN=$(echo ${VM_NAME,,} | tr -d ' ')
+      HN=$(echo "${VM_NAME,,}" | tr -d ' ')
       echo -e "${DGN}Using Hostname: ${BGN}$HN${CL}"
     fi
   fi
   CORE_COUNT=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Allocate CPU Cores" 8 58 2 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
-  if [ -z $CORE_COUNT ]; then
+  if [ -z "$CORE_COUNT" ]; then
     CORE_COUNT="2"
     echo -e "${DGN}Allocated Cores: ${BGN}$CORE_COUNT${CL}"
   else
@@ -187,7 +187,7 @@ function advanced_settings() {
   fi
   RAM_SIZE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Allocate RAM in MiB" 8 58 4096 --title "RAM" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
-  if [ -z $RAM_SIZE ]; then
+  if [ -z "$RAM_SIZE" ]; then
     RAM_SIZE="4096"
     echo -e "${DGN}Allocated RAM: ${BGN}$RAM_SIZE${CL}"
   else
@@ -195,15 +195,15 @@ function advanced_settings() {
   fi
   BRG=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a Bridge" 8 58 vmbr0 --title "BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
-  if [ -z $BRG ]; then
+  if [ -z "$BRG" ]; then
     BRG="vmbr0"
     echo -e "${DGN}Using Bridge: ${BGN}$BRG${CL}"
   else
     if [ $exitstatus = 0 ]; then echo -e "${DGN}Using Bridge: ${BGN}$BRG${CL}"; fi
   fi
-  MAC1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a MAC Address" 8 58 $GEN_MAC --title "MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
+  MAC1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a MAC Address" 8 58 "$GEN_MAC" --title "MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
-  if [ -z $MAC1 ]; then
+  if [ -z "$MAC1" ]; then
     MAC="$GEN_MAC"
     echo -e "${DGN}Using MAC Address: ${BGN}$MAC${CL}"
   else
@@ -215,7 +215,7 @@ function advanced_settings() {
   VLAN1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a Vlan(leave blank for default)" 8 58 --title "VLAN" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
   if [ $exitstatus = 0 ]; then
-    if [ -z $VLAN1 ]; then
+    if [ -z "$VLAN1" ]; then
       VLAN1="Default" VLAN=""
       echo -e "${DGN}Using Vlan: ${BGN}$VLAN1${CL}"
     else
@@ -226,7 +226,7 @@ function advanced_settings() {
   MTU1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Interface MTU Size (leave blank for default)" 8 58 --title "MTU SIZE" --cancel-button Exit-Script 3>&1 1>&2 2>&3)
   exitstatus=$?
   if [ $exitstatus = 0 ]; then
-    if [ -z $MTU1 ]; then
+    if [ -z "$MTU1" ]; then
       MTU1="Default" MTU=""
       echo -e "${DGN}Using Interface MTU Size: ${BGN}$MTU1${CL}"
     else
@@ -267,9 +267,9 @@ ARCH_CHECK
 START_SCRIPT
 post_to_api_vm
 while read -r line; do
-  TAG=$(echo $line | awk '{print $1}')
-  TYPE=$(echo $line | awk '{printf "%-10s", $2}')
-  FREE=$(echo $line | numfmt --field 4-6 --from-unit=K --to=iec --format %.2f | awk '{printf( "%9sB", $6)}')
+  TAG=$(echo "$line" | awk '{print $1}')
+  TYPE=$(echo "$line" | awk '{printf "%-10s", $2}')
+  FREE=$(echo "$line" | numfmt --field 4-6 --from-unit=K --to=iec --format %.2f | awk '{printf( "%9sB", $6)}')
   ITEM="  Type: $TYPE Free: $FREE "
   OFFSET=2
   if [[ $((${#ITEM} + $OFFSET)) -gt ${MSG_MAX_LENGTH:-} ]]; then
@@ -298,11 +298,11 @@ sleep 2
 msg_ok "${CL}${BL}${URL}${CL}"
 curl -f#SL -o "$(basename "$URL")" "$URL"
 echo -en "\e[1A\e[0K"
-FILE=$(basename $URL)
+FILE=$(basename "$URL")
 msg_ok "Downloaded ${CL}${BL}haos_generic-aarch64-${BRANCH}.qcow2.xz${CL}"
 msg_info "Extracting Disk Image"
-unxz $FILE
-STORAGE_TYPE=$(pvesm status -storage $STORAGE | awk 'NR>1 {print $2}')
+unxz "$FILE"
+STORAGE_TYPE=$(pvesm status -storage "$STORAGE" | awk 'NR>1 {print $2}')
 case $STORAGE_TYPE in
 nfs | dir)
   DISK_EXT=".qcow2"
@@ -312,21 +312,21 @@ nfs | dir)
 esac
 for i in {0,1}; do
   disk="DISK$i"
-  eval DISK${i}=vm-${VMID}-disk-${i}${DISK_EXT:-}
-  eval DISK${i}_REF=${STORAGE}:${DISK_REF:-}${!disk}
+  eval DISK"${i}"=vm-"${VMID}"-disk-"${i}"${DISK_EXT:-}
+  eval DISK"${i}"_REF="${STORAGE}":"${DISK_REF:-}"${!disk}
 done
 msg_ok "Extracted Disk Image"
 msg_info "Creating HAOS VM"
-qm create $VMID -bios ovmf -cores $CORE_COUNT -memory $RAM_SIZE -name $HN \
-  -net0 virtio,bridge=$BRG,macaddr=$MAC$VLAN$MTU -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
-pvesm alloc $STORAGE $VMID $DISK0 64M 1>&/dev/null
-qm importdisk $VMID ${FILE%.*} $STORAGE ${DISK_IMPORT:-} 1>&/dev/null
-qm set $VMID \
-  -efidisk0 ${DISK0_REF},efitype=4m,size=64M \
-  -scsi0 ${DISK1_REF},size=32G >/dev/null
-qm set $VMID \
+qm create "$VMID" -bios ovmf -cores "$CORE_COUNT" -memory "$RAM_SIZE" -name "$HN" \
+  -net0 virtio,bridge="$BRG",macaddr="$MAC"$VLAN"$MTU" -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
+pvesm alloc "$STORAGE" "$VMID" "$DISK0" 64M 1>&/dev/null
+qm importdisk "$VMID" "${FILE%.*}" "$STORAGE" "${DISK_IMPORT:-}" 1>&/dev/null
+qm set "$VMID" \
+  -efidisk0 "${DISK0_REF}",efitype=4m,size=64M \
+  -scsi0 "${DISK1_REF}",size=32G >/dev/null
+qm set "$VMID" \
   -boot order=scsi0 \
-  -description "<div align='center'><a href='https://Helper-Scripts.com'><img src='https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/images/logo-81x112.png'/></a>
+  -description "<div align='center'><a href='https://Helper-Scripts.com'><img src='raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/images/logo-81x112.png'/></a>
 
   # Home Assistant OS
 
@@ -335,7 +335,7 @@ qm set $VMID \
 msg_ok "Created HAOS VM ${CL}${BL}(${HN})"
 if [ "$START_VM" == "yes" ]; then
   msg_info "Starting Home Assistant OS VM"
-  qm start $VMID
+  qm start "$VMID"
   msg_ok "Started Home Assistant OS VM"
 fi
 post_update_to_api "done" "none"

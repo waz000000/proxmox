@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -45,7 +45,7 @@ function update_script() {
         msg_ok "Cleaning up"
     fi
 
-    cd /opt/jellyseerr
+    cd /opt/jellyseerr || exit
     output=$(git pull --no-rebase)
 
     pnpm_current=$(pnpm --version 2>/dev/null)

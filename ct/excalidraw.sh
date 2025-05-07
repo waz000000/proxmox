@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: Slaviša Arežina (tremor021)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -36,13 +36,13 @@ function update_script() {
         msg_ok "Stopped $APP"
 
         msg_info "Updating $APP to v${RELEASE}"
-        cd /tmp
+        cd /tmp || exit
         temp_file=$(mktemp)
-curl -fsSL "https://github.com/excalidraw/excalidraw/archive/refs/tags/v${RELEASE}.tar.gz" -o "$temp_file"
-        tar xzf $temp_file
+        curl -fsSL "https://github.com/excalidraw/excalidraw/archive/refs/tags/v${RELEASE}.tar.gz" -o "$temp_file"
+        tar xzf "$temp_file"
         rm -rf /opt/excalidraw
-        mv excalidraw-${RELEASE} /opt/excalidraw
-        cd /opt/excalidraw
+        mv excalidraw-"${RELEASE}" /opt/excalidraw
+        cd /opt/excalidraw || exit
         $STD yarn
         msg_ok "Updated $APP to v${RELEASE}"
 
@@ -51,7 +51,7 @@ curl -fsSL "https://github.com/excalidraw/excalidraw/archive/refs/tags/v${RELEAS
         msg_ok "Started $APP"
 
         msg_info "Cleaning Up"
-        rm -rf $temp_file
+        rm -rf "$temp_file"
         msg_ok "Cleanup Completed"
 
         echo "${RELEASE}" >/opt/excalidraw_version.txt

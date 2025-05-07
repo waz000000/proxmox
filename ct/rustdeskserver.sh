@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: Slaviša Arežina (tremor021)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -43,11 +43,11 @@ function update_script() {
             -o "${TEMPDIR}/rustdesk-server-hbbs_${RELEASE}_amd64.deb"
         curl -fsSL "https://github.com/rustdesk/rustdesk-server/releases/download/${RELEASE}/rustdesk-server-utils_${RELEASE}_amd64.deb" \
             -o "${TEMPDIR}/rustdesk-server-utils_${RELEASE}_amd64.deb"
-        $STD dpkg -i $TEMPDIR/*.deb
+        $STD dpkg -i "$TEMPDIR"/*.deb
         msg_ok "Updated $APP to v${RELEASE}"
 
         msg_info "Cleaning Up"
-        rm -rf $TEMPDIR
+        rm -rf "$TEMPDIR"
         msg_ok "Cleanup Completed"
 
         echo "${RELEASE}" >/opt/rustdesk_version.txt

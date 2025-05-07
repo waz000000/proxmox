@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster) | Co-Author: remz1337
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
@@ -32,7 +32,7 @@ function update_script() {
   msg_ok "Stopped ${APP}"
 
   msg_info "Updating ${APP}"
-  cd /opt/kepubify
+  cd /opt/kepubify || exit
   rm -rf kepubify-linux-64bit
   curl -fsSLO https://github.com/pgaskin/kepubify/releases/latest/download/kepubify-linux-64bit
   chmod +x kepubify-linux-64bit
@@ -48,28 +48,28 @@ function update_script() {
     cps_options="$(cat /opt/calibre-web/options.txt)"
     IFS=',' read -ra ADDR <<<"$cps_options"
     for i in "${ADDR[@]}"; do
-      if [ $i == "gdrive" ]; then
+      if [ "$i" == "gdrive" ]; then
         line=0
-      elif [ $i == "gmail" ]; then
+      elif [ "$i" == "gmail" ]; then
         line=1
-      elif [ $i == "goodreads" ]; then
+      elif [ "$i" == "goodreads" ]; then
         line=2
-      elif [ $i == "ldap" ]; then
+      elif [ "$i" == "ldap" ]; then
         line=3
-      elif [ $i == "oauth" ]; then
+      elif [ "$i" == "oauth" ]; then
         line=4
-      elif [ $i == "metadata" ]; then
+      elif [ "$i" == "metadata" ]; then
         line=5
-      elif [ $i == "comics" ]; then
+      elif [ "$i" == "comics" ]; then
         line=6
-      elif [ $i == "kobo" ]; then
+      elif [ "$i" == "kobo" ]; then
         line=7
       fi
       array_index=$((3 * line + 2))
       menu_array[$array_index]=ON
     done
   fi
-  if [ -n "$SPINNER_PID" ] && ps -p $SPINNER_PID >/dev/null; then kill $SPINNER_PID >/dev/null; fi
+  if [ -n "$SPINNER_PID" ] && ps -p "$SPINNER_PID" >/dev/null; then kill "$SPINNER_PID" >/dev/null; fi
   CHOICES=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "CALIBRE-WEB OPTIONS" --separate-output --checklist "Choose Additional Options" 15 125 8 "${menu_array[@]}" 3>&1 1>&2 2>&3)
   spinner &
   SPINNER_PID=$!
@@ -114,8 +114,8 @@ function update_script() {
       IFS=,
       echo "${options[*]}"
     )
-    echo $cps_options >/opt/calibre-web/options.txt
-    $STD pip install --upgrade calibreweb[$cps_options]
+    echo "$cps_options" >/opt/calibre-web/options.txt
+    $STD pip install --upgrade calibreweb["$cps_options"]
   else
     rm -rf /opt/calibre-web/options.txt
     $STD pip install --upgrade calibreweb
