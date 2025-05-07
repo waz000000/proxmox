@@ -1223,11 +1223,14 @@ check_container_storage() {
 start() {
   source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/tools.func)
   if command -v pveversion >/dev/null 2>&1; then
-    clear
+    if ! (whiptail --backtitle "Proxmox VE Helper Scripts" --title "${APP} LXC" --yesno "This will create a New ${APP} LXC. Proceed?" 10 58); then
+      clear
+      exit_script
+      exit
+    fi
     SPINNER_PID=""
     install_script
   fi
-}
 
   if ! command -v pveversion >/dev/null 2>&1; then
     CHOICE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "${APP} LXC Update/Setting" --menu \
@@ -1367,6 +1370,7 @@ EOF
   pct exec "$CTID" -- apt install curl -y
   sleep 5
   pct exec "$CTID" -- curl -fSsL https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor | tee /usr/share/keyrings/nvidia-drivers.gpg >/dev/null 2>&1
+  sleep 5
   pct exec "$CTID" -- echo 'deb [signed-by=/usr/share/keyrings/nvidia-drivers.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /' | tee /etc/apt/sources.list.d/nvidia-drivers.list
   sleep 5
   pct exec "$CTID" -- apt update
@@ -1374,6 +1378,7 @@ EOF
   pct exec "$CTID" -- apt install build-essential gcc dirmngr ca-certificates software-properties-common apt-transport-https dkms curl -y
   sleep 30
   pct exec "$CTID" -- apt update
+  sleep 5
   pct exec "$CTID" -- apt install nvidia-driver -y
   pct exec "$CTID" -- apt install cuda-drivers -y
   pct exec "$CTID" -- apt install cuda -y
