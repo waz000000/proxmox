@@ -2,7 +2,7 @@
 
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: michelroegl-brunner
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT |
 
 source /dev/stdin <<<$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/api.func)
 
@@ -551,13 +551,13 @@ btrfs)
 esac
 for i in {0,1}; do
   disk="DISK$i"
-  eval DISK"${i}"=vm-"${VMID}"-disk-"${i}"${DISK_EXT:-}
-  eval DISK"${i}"_REF="${STORAGE}":"${DISK_REF:-}"${!disk}
+  eval DISK"${i}"=vm-"${VMID}"-disk-"${i}""${DISK_EXT:-}"
+  eval DISK"${i}"_REF="${STORAGE}":"${DISK_REF:-}""${!disk}"
 done
 
 msg_info "Creating a OPNsense VM"
 qm create "$VMID" -agent 1"${MACHINE}" -tablet 0 -localtime 1 -bios ovmf"${CPU_TYPE}" -cores "$CORE_COUNT" -memory "$RAM_SIZE" \
-  -name "$HN" -tags proxmox-helper-scripts -net0 virtio,bridge="$BRG",macaddr="$MAC"$VLAN"$MTU" -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
+  -name "$HN" -tags proxmox-helper-scripts -net0 virtio,bridge="$BRG",macaddr="$MAC""$VLAN""$MTU" -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
 pvesm alloc "$STORAGE" "$VMID" "$DISK0" 4M 1>&/dev/null
 qm importdisk "$VMID" ${FILE} "$STORAGE" "${DISK_IMPORT:-}" 1>&/dev/null
 qm set "$VMID" \
@@ -601,7 +601,7 @@ qm set "$VMID" -description "$DESCRIPTION" >/dev/null
 
 msg_info "Bridge interfaces are being added."
 qm set "$VMID" \
-  -net0 virtio,bridge="${BRG}",macaddr="${MAC}"${VLAN}"${MTU}" 2>/dev/null
+  -net0 virtio,bridge="${BRG}",macaddr="${MAC}""${VLAN}""${MTU}" 2>/dev/null
 msg_ok "Bridge interfaces have been successfully added."
 
 msg_ok "Created a OPNsense VM ${CL}${BL}(${HN})"

@@ -2,7 +2,7 @@
 source <(curl -s https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: MickLesk (CanbiZ)
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT |
 # Source: https://www.meilisearch.com/
 
 APP="Meilisearch"

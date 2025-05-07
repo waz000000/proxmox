@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+#
 
 source /dev/stdin <<<$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/api.func)
 
@@ -312,13 +312,13 @@ nfs | dir)
 esac
 for i in {0,1}; do
   disk="DISK$i"
-  eval DISK"${i}"=vm-"${VMID}"-disk-"${i}"${DISK_EXT:-}
-  eval DISK"${i}"_REF="${STORAGE}":"${DISK_REF:-}"${!disk}
+  eval DISK"${i}"=vm-"${VMID}"-disk-"${i}""${DISK_EXT:-}"
+  eval DISK"${i}"_REF="${STORAGE}":"${DISK_REF:-}""${!disk}"
 done
 msg_ok "Extracted Disk Image"
 msg_info "Creating HAOS VM"
 qm create "$VMID" -bios ovmf -cores "$CORE_COUNT" -memory "$RAM_SIZE" -name "$HN" \
-  -net0 virtio,bridge="$BRG",macaddr="$MAC"$VLAN"$MTU" -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
+  -net0 virtio,bridge="$BRG",macaddr="$MAC""$VLAN""$MTU" -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
 pvesm alloc "$STORAGE" "$VMID" "$DISK0" 64M 1>&/dev/null
 qm importdisk "$VMID" "${FILE%.*}" "$STORAGE" "${DISK_IMPORT:-}" 1>&/dev/null
 qm set "$VMID" \

@@ -2,7 +2,7 @@
 source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: davalanche
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT |
 # Source: https://github.com/mylar3/mylar3
 
 APP="Mylar3"
