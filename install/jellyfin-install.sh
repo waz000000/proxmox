@@ -15,18 +15,6 @@ msg_info "Installing Dependencies"
 $STD apt-get install -y gpg
 msg_ok "Installed Dependencies"
 
-msg_info "Installing Nvidia"
-echo "deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware" >>/etc/apt/sources.list
-apt update
-apt install build-essential gcc dirmngr ca-certificates software-properties-common apt-transport-https dkms curl -y
-curl -fSsL https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor | tee /usr/share/keyrings/nvidia-drivers.gpg >/dev/null 2>&1
-echo 'deb [signed-by=/usr/share/keyrings/nvidia-drivers.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /' | tee /etc/apt/sources.list.d/nvidia-drivers.list
-apt update
-apt install nvidia-driver -y
-apt install cuda-drivers -y
-apt install cuda -y
-msg_ok "Installed Nvidia"
-
 msg_info "Installing Jellyfin"
 VERSION="$(awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release)"
 # If the keyring directory is absent, create it
@@ -35,6 +23,7 @@ if [[ ! -d /etc/apt/keyrings ]]; then
 fi
 # Download the repository signing key and install it to the keyring directory
 curl -fsSL https://repo.jellyfin.org/jellyfin_team.gpg.key | gpg --dearmor --yes --output /etc/apt/keyrings/jellyfin.gpg
+curl -fSsL https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor --yes --output /usr/share/keyrings/nvidia-drivers.gpg
 # Install the Deb822 format jellyfin.sources entry
 cat <<EOF >/etc/apt/sources.list.d/jellyfin.sources
 Types: deb
@@ -44,8 +33,19 @@ Components: main
 Architectures: amd64
 Signed-By: /etc/apt/keyrings/jellyfin.gpg
 EOF
-# Install Jellyfin using the metapackage (which will fetch jellyfin-server, jellyfin-web, and jellyfin-ffmpeg5)
+cat <<EOF >/etc/apt/sources.list.d/nvidia-drivers.list
+deb [signed-by=/usr/share/keyrings/nvidia-drivers.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /
+EOF
+EOF
+cat <<EOF >/etc/apt/sources.list
+deb http://deb.debian.org/debian bookworm main non-free non-free-firmware contrib
+EOF
+# Install Jellyfin and nvidia using the metapackage (which will fetch jellyfin-server, jellyfin-web, and jellyfin-ffmpeg5)
 $STD apt-get update
+$STD apt-get install -y build-essential gcc dirmngr ca-certificates software-properties-common apt-transport-https dkms curl
+$STD apt-get install -y nvidia-driver
+$STD apt-get install -y cuda-driver
+$STD apt-get install -y cuda
 $STD apt-get install -y jellyfin
 sed -i 's/"MinimumLevel": "Information"/"MinimumLevel": "Error"/g' /etc/jellyfin/logging.json
 chown -R jellyfin:adm /etc/jellyfin
