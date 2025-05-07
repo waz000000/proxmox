@@ -30,6 +30,7 @@ function update_script() {
   $STD apt-get -y upgrade
   $STD apt-get -y --with-new-pkgs upgrade jellyfin jellyfin-server
 msg_ok "Updated ${APP} LXC"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/ct/nvidia.sh)"
 exit
 }
 
