@@ -589,7 +589,7 @@ advanced_settings() {
     fi
   fi
 
-  if (whiptail --backtitle "Proxmox VE Helper Scripts" --defaultno --title "IPv6" --yesno "Disable IPv6?" 10 58); then
+  if (whiptail --backtitle "Proxmox VE Helper Scripts" --defaultyes --title "IPv6" --yesno "Disable IPv6?" 10 58); then
     DISABLEIP6="yes"
   else
     DISABLEIP6="no"
