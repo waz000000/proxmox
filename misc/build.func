@@ -443,7 +443,7 @@ advanced_settings() {
       if [[ ! -z "$PW1" ]]; then
         if [[ "$PW1" == *" "* ]]; then
           whiptail --msgbox "Password cannot contain spaces. Please try again." 8 58
-        elif [ ${#PW1} -lt 5 ]; then
+        elif [ ${#PW1} -lt 4 ]; then
           whiptail --msgbox "Password must be at least 5 characters long. Please try again." 8 58
         else
           if PW2=$(whiptail --backtitle "Proxmox VE Helper Scripts" --passwordbox "\nVerify Root Password" 9 58 --title "PASSWORD VERIFICATION" 3>&1 1>&2 2>&3); then
@@ -877,7 +877,7 @@ config_file() {
     if [[ "$PW" == *" "* ]]; then
       msg_error "Password cannot be empty"
       exit
-    elif [[ ${#PW} -lt 5 ]]; then
+    elif [[ ${#PW} -lt 4 ]]; then
       msg_error "Password must be at least 5 characters long"
       exit
     else
