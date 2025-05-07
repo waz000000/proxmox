@@ -1366,7 +1366,8 @@ EOF
   msg_info "Starting LXC Container"
   pct start "$CTID"
   sleep 10
-  apt install curl -y
+  pct exec "$CTID" -- apt update
+  pct exec "$CTID" -- apt install curl -y
   pct exec "$CTID" -- curl -fSsL https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/3bf863cc.pub | gpg --dearmor | tee /usr/share/keyrings/nvidia-drivers.gpg >/dev/null 2>&1
   pct exec "$CTID" -- echo 'deb [signed-by=/usr/share/keyrings/nvidia-drivers.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian12/x86_64/ /' | tee /etc/apt/sources.list.d/nvidia-drivers.list
   sleep 5
