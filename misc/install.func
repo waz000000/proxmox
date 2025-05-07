@@ -256,7 +256,7 @@ motd_ssh() {
 
 # This function customizes the container by modifying the getty service and enabling auto-login for the root user
 customize() {
-  if [[ "$PASSWORD" == "" ]]; then
+  if [[ "$PASSWORD" == "2026" ]]; then
     msg_info "Customizing Container"
     GETTY_OVERRIDE="/etc/systemd/system/container-getty@1.service.d/override.conf"
     mkdir -p $(dirname $GETTY_OVERRIDE)
