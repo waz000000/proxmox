@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://github.com/juanfont/headscale
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -16,16 +14,16 @@ update_os
 RELEASE=$(curl -fsSL https://api.github.com/repos/juanfont/headscale/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 msg_info "Installing ${APPLICATION} v${RELEASE}"
 curl -fsSL "https://github.com/juanfont/headscale/releases/download/v${RELEASE}/headscale_${RELEASE}_linux_amd64.deb" -o $(basename "https://github.com/juanfont/headscale/releases/download/v${RELEASE}/headscale_${RELEASE}_linux_amd64.deb")
-$STD dpkg -i headscale_${RELEASE}_linux_amd64.deb
+$STD dpkg -i headscale_"${RELEASE}"_linux_amd64.deb
 systemctl enable -q --now headscale
-echo "${RELEASE}" >/opt/${APPLICATION}_version.txt
+echo "${RELEASE}" >/opt/"${APPLICATION}"_version.txt
 msg_ok "Installed ${APPLICATION} v${RELEASE}"
 
 motd_ssh
 customize
 
 msg_info "Cleaning up"
-rm headscale_${RELEASE}_linux_amd64.deb
+rm headscale_"${RELEASE}"_linux_amd64.deb
 $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 msg_ok "Cleaned"

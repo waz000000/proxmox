@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://home.tdarr.io/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -30,7 +28,7 @@ msg_ok "Set Up Hardware Acceleration"
 
 msg_info "Installing Tdarr"
 mkdir -p /opt/tdarr
-cd /opt/tdarr
+cd /opt/tdarr || exit
 RELEASE=$(curl -fsSL https://f000.backblazeb2.com/file/tdarrs/versions.json | grep -oP '(?<="Tdarr_Updater": ")[^"]+' | grep linux_x64 | head -n 1)
 curl -fsSL "$RELEASE" -o $(basename "$RELEASE")
 $STD unzip Tdarr_Updater.zip

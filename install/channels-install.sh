@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://getchannels.com/dvr-server/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -33,7 +31,7 @@ if [[ "$CTTYPE" == "0" ]]; then
 fi
 
 msg_info "Installing Channels DVR Server (Patience)"
-cd /opt
+cd /opt || exit
 $STD bash <(curl -fsSL https://getchannels.com/dvr/setup.sh)
 sed -i -e 's/^sgx:x:104:$/render:x:104:root/' -e 's/^render:x:106:root$/sgx:x:106:/' /etc/group
 msg_ok "Installed Channels DVR Server"

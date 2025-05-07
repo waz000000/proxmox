@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://runtipi.io/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -17,7 +15,7 @@ msg_info "Installing Runtipi (Patience)"
 DOCKER_CONFIG_PATH='/etc/docker/daemon.json'
 mkdir -p "$(dirname "$DOCKER_CONFIG_PATH")"
 echo -e '{\n  "log-driver": "journald"\n}' >"$DOCKER_CONFIG_PATH"
-cd /opt
+cd /opt || exit
 curl -fsSL "https://raw.githubusercontent.com/runtipi/runtipi/master/scripts/install.sh" -o $(basename "https://raw.githubusercontent.com/runtipi/runtipi/master/scripts/install.sh")
 chmod +x install.sh
 $STD ./install.sh

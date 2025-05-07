@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://www.traccar.org/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -16,10 +14,10 @@ update_os
 RELEASE=$(curl -fsSL https://api.github.com/repos/traccar/traccar/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 msg_info "Installing Traccar v${RELEASE}"
 curl -fsSL "https://github.com/traccar/traccar/releases/download/v${RELEASE}/traccar-linux-64-${RELEASE}.zip" -o $(basename "https://github.com/traccar/traccar/releases/download/v${RELEASE}/traccar-linux-64-${RELEASE}.zip")
-$STD unzip traccar-linux-64-${RELEASE}.zip
+$STD unzip traccar-linux-64-"${RELEASE}".zip
 $STD ./traccar.run
 systemctl enable -q --now traccar
-rm -rf README.txt traccar-linux-64-${RELEASE}.zip traccar.run
+rm -rf README.txt traccar-linux-64-"${RELEASE}".zip traccar.run
 msg_ok "Installed Traccar v${RELEASE}"
 
 motd_ssh

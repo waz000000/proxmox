@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://www.nocodb.com/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -15,7 +13,7 @@ update_os
 
 msg_info "Installing NocoDB"
 mkdir -p /opt/nocodb
-cd /opt/nocodb
+cd /opt/nocodb || exit
 curl -fsSL http://get.nocodb.com/linux-x64 -o nocodb -L
 chmod +x nocodb
 msg_ok "Installed NocoDB"

@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://emby.media/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -28,7 +26,7 @@ LATEST=$(curl -fsSL https://api.github.com/repos/MediaBrowser/Emby.Releases/rele
 
 msg_info "Installing Emby"
 curl -fsSL "https://github.com/MediaBrowser/Emby.Releases/releases/download/${LATEST}/emby-server-deb_${LATEST}_amd64.deb" -o $(basename "https://github.com/MediaBrowser/Emby.Releases/releases/download/${LATEST}/emby-server-deb_${LATEST}_amd64.deb")
-$STD dpkg -i emby-server-deb_${LATEST}_amd64.deb
+$STD dpkg -i emby-server-deb_"${LATEST}"_amd64.deb
 if [[ "$CTTYPE" == "0" ]]; then
   sed -i -e 's/^ssl-cert:x:104:$/render:x:104:root,emby/' -e 's/^render:x:108:root,emby$/ssl-cert:x:108:/' /etc/group
 else
@@ -42,5 +40,5 @@ customize
 msg_info "Cleaning up"
 $STD apt-get -y autoremove
 $STD apt-get -y autoclean
-rm emby-server-deb_${LATEST}_amd64.deb
+rm emby-server-deb_"${LATEST}"_amd64.deb
 msg_ok "Cleaned"

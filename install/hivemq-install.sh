@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://www.hivemq.com/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -27,9 +25,9 @@ msg_ok "Installed OpenJDK"
 msg_info "Installing HiveMQ CE"
 RELEASE=$(curl -fsSL https://api.github.com/repos/hivemq/hivemq-community-edition/releases/latest | grep "tag_name" | awk '{print substr($2, 2, length($2)-3) }')
 curl -fsSL "https://github.com/hivemq/hivemq-community-edition/releases/download/${RELEASE}/hivemq-ce-${RELEASE}.zip" -o $(basename "https://github.com/hivemq/hivemq-community-edition/releases/download/${RELEASE}/hivemq-ce-${RELEASE}.zip")
-unzip -q hivemq-ce-${RELEASE}.zip
+unzip -q hivemq-ce-"${RELEASE}".zip
 mkdir -p /opt/hivemq
-mv hivemq-ce-${RELEASE}/* /opt/hivemq
+mv hivemq-ce-"${RELEASE}"/* /opt/hivemq
 useradd -d /opt/hivemq hivemq
 chown -R hivemq:hivemq /opt/hivemq
 chmod +x /opt/hivemq/bin/run.sh
@@ -43,8 +41,8 @@ motd_ssh
 customize
 
 msg_info "Cleaning up"
-rm -rf hivemq-ce-${RELEASE}.zip
-rm -rf ../hivemq-ce-${RELEASE}
+rm -rf hivemq-ce-"${RELEASE}".zip
+rm -rf ../hivemq-ce-"${RELEASE}"
 $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 msg_ok "Cleaned"

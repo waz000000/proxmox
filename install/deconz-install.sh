@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |  
+#scripts by warren  
 # Source: https://www.phoscon.de/en/conbee2/software#deconz
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"

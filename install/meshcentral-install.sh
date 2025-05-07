@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://meshcentral.com/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -31,7 +29,7 @@ msg_ok "Installed Node.js"
 
 msg_info "Installing MeshCentral"
 mkdir /opt/meshcentral
-cd /opt/meshcentral
+cd /opt/meshcentral || exit
 $STD npm install meshcentral
 $STD node node_modules/meshcentral --install
 msg_ok "Installed MeshCentral"

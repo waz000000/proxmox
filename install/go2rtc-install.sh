@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://github.com/AlexxIT/go2rtc
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -15,7 +13,7 @@ update_os
 
 msg_info "Installing go2rtc"
 mkdir -p /opt/go2rtc
-cd /opt/go2rtc
+cd /opt/go2rtc || exit
 curl -fsSL "https://github.com/AlexxIT/go2rtc/releases/latest/download/go2rtc_linux_amd64" -o $(basename "https://github.com/AlexxIT/go2rtc/releases/latest/download/go2rtc_linux_amd64")
 chmod +x go2rtc_linux_amd64
 msg_ok "Installed go2rtc"

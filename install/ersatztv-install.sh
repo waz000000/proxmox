@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: MickLesk (Canbiz)
-# License: MIT |  
+#scripts by warren
 # Source: https://ersatztv.org/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"

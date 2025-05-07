@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://www.docker.com/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -14,7 +12,7 @@ network_check
 update_os
 
 get_latest_release() {
-  curl -fsSL https://api.github.com/repos/$1/releases/latest | grep '"tag_name":' | cut -d'"' -f4
+  curl -fsSL https://api.github.com/repos/"$1"/releases/latest | grep '"tag_name":' | cut -d'"' -f4
 }
 
 DOCKER_LATEST_VERSION=$(get_latest_release "moby/moby")

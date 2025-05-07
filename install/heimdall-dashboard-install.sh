@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://heimdall.site/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -27,7 +25,7 @@ tar xzf "${RELEASE}".tar.gz
 VER=$(curl -fsSL https://api.github.com/repos/linuxserver/Heimdall/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
 rm -rf "${RELEASE}".tar.gz
 mv Heimdall-"${VER}" /opt/Heimdall
-cd /opt/Heimdall
+cd /opt/Heimdall || exit
 cp .env.example .env
 $STD php artisan key:generate
 msg_ok "Installed Heimdall Dashboard ${RELEASE}"
@@ -50,7 +48,7 @@ TimeoutStopSec=30
 [Install]
 WantedBy=multi-user.target" >$service_path
 systemctl enable -q --now heimdall
-cd /opt/Heimdall
+cd /opt/Heimdall || exit
 COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload &>/dev/null
 systemctl restart heimdall.service
 msg_ok "Created Service"

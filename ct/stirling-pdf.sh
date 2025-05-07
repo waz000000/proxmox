@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 source <(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/misc/build.func)
-# Copyright (c) 2021-2025 tteck
-# Author: tteck (tteckster)
-# License: MIT |
+#scripts by warren
 # Source: https://www.stirlingpdf.com/
 
 APP="Stirling-PDF"
@@ -36,7 +34,7 @@ function update_script() {
   RELEASE=$(curl -fsSL https://api.github.com/repos/Stirling-Tools/Stirling-PDF/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
   curl -fsSL "https://github.com/Stirling-Tools/Stirling-PDF/archive/refs/tags/v$RELEASE.tar.gz" -o $(basename "https://github.com/Stirling-Tools/Stirling-PDF/archive/refs/tags/v$RELEASE.tar.gz")
   tar -xzf v"$RELEASE".tar.gz
-  cd Stirling-PDF-$RELEASE || exit
+  cd Stirling-PDF-"$RELEASE" || exit
   chmod +x ./gradlew
   $STD ./gradlew build
   rm -rf /opt/Stirling-PDF/Stirling-PDF-*.jar
