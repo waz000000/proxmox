@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-#  
+#
 
 function header_info {
   clear
@@ -108,7 +108,7 @@ uninstall() {
 OPTIONS=(Install "Install $APP"
   Uninstall "Uninstall $APP")
 
-CHOICE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "$APP" --menu "Select an option:" 10 58 2 \
+CHOICE=$(whiptail --backtitle "Warrens scripts" --title "$APP" --menu "Select an option:" 10 58 2 \
   "${OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
 case $CHOICE in

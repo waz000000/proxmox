@@ -28,7 +28,7 @@ function update_script() {
     msg_error "No Meilisearch Installation Found!"
     exit
   fi
-  UPD=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "Meilisearch Update" --radiolist --cancel-button Exit-Script "Spacebar = Select" 10 58 2 \
+  UPD=$(whiptail --backtitle "Warrens scripts" --title "Meilisearch Update" --radiolist --cancel-button Exit-Script "Spacebar = Select" 10 58 2 \
     "1" "Update Meilisearch" ON \
     "2" "Update Meilisearch-UI" OFF \
     3>&1 1>&2 2>&3)

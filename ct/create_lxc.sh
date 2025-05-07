@@ -129,9 +129,9 @@ function select_storage() {
   # This Queries all storage locations
   local -a MENU
   while read -r line; do
-    local TAG=$(echo $line | awk '{print $1}')
-    local TYPE=$(echo $line | awk '{printf "%-10s", $2}')
-    local FREE=$(echo $line | numfmt --field 4-6 --from-unit=K --to=iec --format %.2f | awk '{printf( "%9sB", $6)}')
+    local TAG=$(echo "$line" | awk '{print $1}')
+    local TYPE=$(echo "$line" | awk '{printf "%-10s", $2}')
+    local FREE=$(echo "$line" | numfmt --field 4-6 --from-unit=K --to=iec --format %.2f | awk '{printf( "%9sB", $6)}')
     local ITEM="Type: $TYPE Free: $FREE "
     local OFFSET=2
     if [[ $((${#ITEM} + $OFFSET)) -gt ${MSG_MAX_LENGTH:-} ]]; then
@@ -142,11 +142,11 @@ function select_storage() {
 
   # Select storage location
   if [ $((${#MENU[@]} / 3)) -eq 1 ]; then
-    printf ${MENU[0]}
+    printf "${MENU[0]}"
   else
     local STORAGE
     while [ -z "${STORAGE:+x}" ]; do
-      STORAGE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "Storage Pools" --radiolist \
+      STORAGE=$(whiptail --backtitle "Warrens scripts" --title "Storage Pools" --radiolist \
         "Which storage pool would you like to use for the ${CONTENT_LABEL,,}?\nTo make a selection, use the Spacebar.\n" \
         16 $(($MSG_MAX_LENGTH + 23)) 6 \
         "${MENU[@]}" 3>&1 1>&2 2>&3) || {
@@ -221,7 +221,7 @@ mapfile -t TEMPLATES < <(pveam available -section system | sed -n "s/.*\($TEMPLA
   exit 207
 }
 TEMPLATE="${TEMPLATES[-1]}"
-TEMPLATE_PATH="$(pvesm path $TEMPLATE_STORAGE:vztmpl/$TEMPLATE)"
+TEMPLATE_PATH="$(pvesm path "$TEMPLATE_STORAGE":vztmpl/"$TEMPLATE")"
 # Without NAS/Mount: TEMPLATE_PATH="/var/lib/vz/template/cache/$TEMPLATE"
 # Check if template exists, if corrupt remove and redownload
 if ! pveam list "$TEMPLATE_STORAGE" | grep -q "$TEMPLATE" || ! zstdcat "$TEMPLATE_PATH" | tar -tf - >/dev/null 2>&1; then
@@ -237,7 +237,7 @@ if ! pveam list "$TEMPLATE_STORAGE" | grep -q "$TEMPLATE" || ! zstdcat "$TEMPLAT
       break
     fi
 
-    if [ $attempt -eq 3 ]; then
+    if [ "$attempt" -eq 3 ]; then
       msg_error "Three failed attempts. Aborting."
       exit 208
     fi

@@ -148,7 +148,7 @@ function send_line_to_vm() {
 TEMP_DIR=$(mktemp -d)
 pushd "$TEMP_DIR" >/dev/null
 
-if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "OpenWrt VM" --yesno "This will create a New OpenWrt VM. Proceed?" 10 58); then
+if (whiptail --backtitle "Warrens scripts" --title "OpenWrt VM" --yesno "This will create a New OpenWrt VM. Proceed?" 10 58); then
   :
 else
   header_info && echo -e "⚠ User exited script \n" && exit
@@ -191,7 +191,7 @@ function arch_check() {
 function ssh_check() {
   if command -v pveversion >/dev/null 2>&1; then
     if [ -n "${SSH_CLIENT:+x}" ]; then
-      if whiptail --backtitle "Proxmox VE Helper Scripts" --defaultno --title "SSH DETECTED" --yesno "It's suggested to use the Proxmox shell instead of SSH, since SSH can create issues while gathering variables. Would you like to proceed with using SSH?" 10 62; then
+      if whiptail --backtitle "Warrens scripts" --defaultno --title "SSH DETECTED" --yesno "It's suggested to use the Proxmox shell instead of SSH, since SSH can create issues while gathering variables. Would you like to proceed with using SSH?" 10 62; then
         echo "you've been warned"
       else
         clear
@@ -243,7 +243,7 @@ function default_settings() {
 function advanced_settings() {
   METHOD="advanced"
   while true; do
-    if VMID=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Virtual Machine ID" 8 58 "$NEXTID" --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+    if VMID=$(whiptail --backtitle "Warrens scripts" --inputbox "Set Virtual Machine ID" 8 58 "$NEXTID" --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
       if [ -z "$VMID" ]; then
         VMID="$NEXTID"
       fi
@@ -259,7 +259,7 @@ function advanced_settings() {
     fi
   done
 
-  if VM_NAME=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Hostname" 8 58 openwrt --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if VM_NAME=$(whiptail --backtitle "Warrens scripts" --inputbox "Set Hostname" 8 58 openwrt --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$VM_NAME" ]; then
       HN="openwrt"
     else
@@ -270,7 +270,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if CORE_COUNT=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Allocate CPU Cores" 8 58 1 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if CORE_COUNT=$(whiptail --backtitle "Warrens scripts" --inputbox "Allocate CPU Cores" 8 58 1 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$CORE_COUNT" ]; then
       CORE_COUNT="1"
     fi
@@ -279,7 +279,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if RAM_SIZE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Allocate RAM in MiB" 8 58 256 --title "RAM" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if RAM_SIZE=$(whiptail --backtitle "Warrens scripts" --inputbox "Allocate RAM in MiB" 8 58 256 --title "RAM" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$RAM_SIZE" ]; then
       RAM_SIZE="256"
     fi
@@ -288,7 +288,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if BRG=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN Bridge" 8 58 vmbr0 --title "WAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if BRG=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN Bridge" 8 58 vmbr0 --title "WAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$BRG" ]; then
       BRG="vmbr0"
     fi
@@ -297,7 +297,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if LAN_BRG=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN Bridge" 8 58 vmbr0 --title "LAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if LAN_BRG=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN Bridge" 8 58 vmbr0 --title "LAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$LAN_BRG" ]; then
       LAN_BRG="vmbr0"
     fi
@@ -306,7 +306,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if LAN_IP_ADDR=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a router IP" 8 58 "$LAN_IP_ADDR" --title "LAN IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if LAN_IP_ADDR=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a router IP" 8 58 "$LAN_IP_ADDR" --title "LAN IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$LAN_IP_ADDR" ]; then
       LAN_IP_ADDR="192.168.1.1"
     fi
@@ -315,7 +315,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if LAN_NETMASK=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a router netmask" 8 58 "$LAN_NETMASK" --title "LAN NETMASK" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if LAN_NETMASK=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a router netmask" 8 58 "$LAN_NETMASK" --title "LAN NETMASK" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$LAN_NETMASK" ]; then
       LAN_NETMASK="255.255.255.0"
     fi
@@ -324,7 +324,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if MAC1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN MAC Address" 8 58 "$GEN_MAC" --title "WAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if MAC1=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN MAC Address" 8 58 "$GEN_MAC" --title "WAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$MAC1" ]; then
       MAC="$GEN_MAC"
     else
@@ -335,7 +335,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if MAC2=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN MAC Address" 8 58 "$GEN_MAC_LAN" --title "LAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if MAC2=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN MAC Address" 8 58 "$GEN_MAC_LAN" --title "LAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$MAC2" ]; then
       LAN_MAC="$GEN_MAC_LAN"
     else
@@ -346,7 +346,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if VLAN1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN Vlan (leave blank for default)" 8 58 --title "WAN VLAN" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if VLAN1=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN Vlan (leave blank for default)" 8 58 --title "WAN VLAN" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$VLAN1" ]; then
       VLAN1="Default"
       VLAN=""
@@ -358,7 +358,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if VLAN2=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN Vlan" 8 58 999 --title "LAN VLAN" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if VLAN2=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN Vlan" 8 58 999 --title "LAN VLAN" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$VLAN2" ]; then
       VLAN2="999"
       LAN_VLAN=",tag=$VLAN2"
@@ -370,7 +370,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if MTU1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Interface MTU Size (leave blank for default)" 8 58 --title "MTU SIZE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if MTU1=$(whiptail --backtitle "Warrens scripts" --inputbox "Set Interface MTU Size (leave blank for default)" 8 58 --title "MTU SIZE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$MTU1" ]; then
       MTU1="Default"
       MTU=""
@@ -382,14 +382,14 @@ function advanced_settings() {
     exit-script
   fi
 
-  if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "START VIRTUAL MACHINE" --yesno "Start VM when completed?" 10 58); then
+  if (whiptail --backtitle "Warrens scripts" --title "START VIRTUAL MACHINE" --yesno "Start VM when completed?" 10 58); then
     START_VM="yes"
   else
     START_VM="no"
   fi
   echo -e "${DGN}Start VM when completed: ${BGN}$START_VM${CL}"
 
-  if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "ADVANCED SETTINGS COMPLETE" --yesno "Ready to create OpenWrt VM?" --no-button Do-Over 10 58); then
+  if (whiptail --backtitle "Warrens scripts" --title "ADVANCED SETTINGS COMPLETE" --yesno "Ready to create OpenWrt VM?" --no-button Do-Over 10 58); then
     echo -e "${RD}Creating a OpenWrt VM using the above advanced settings${CL}"
   else
     header_info
@@ -399,7 +399,7 @@ function advanced_settings() {
 }
 
 function start_script() {
-  if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "SETTINGS" --yesno "Use Default Settings?" --no-button Advanced 10 58); then
+  if (whiptail --backtitle "Warrens scripts" --title "SETTINGS" --yesno "Use Default Settings?" --no-button Advanced 10 58); then
     header_info
     echo -e "${BL}Using Default Settings${CL}"
     default_settings
@@ -437,7 +437,7 @@ elif [ $((${#STORAGE_MENU[@]} / 3)) -eq 1 ]; then
   STORAGE=${STORAGE_MENU[0]}
 else
   while [ -z "${STORAGE:+x}" ]; do
-    STORAGE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "Storage Pools" --radiolist \
+    STORAGE=$(whiptail --backtitle "Warrens scripts" --title "Storage Pools" --radiolist \
       "Which storage pool would you like to use for the OpenWrt VM?\n\n" \
       16 $(($MSG_MAX_LENGTH + 23)) 6 \
       "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3)
@@ -478,8 +478,8 @@ btrfs)
 esac
 for i in {0,1}; do
   disk="DISK$i"
-  eval DISK"${i}"=vm-"${VMID}"-disk-"${i}"${DISK_EXT:-}
-  eval DISK"${i}"_REF="${STORAGE}":"${DISK_REF:-}"${!disk}
+  eval DISK"${i}"=vm-"${VMID}"-disk-"${i}""${DISK_EXT:-}"
+  eval DISK"${i}"_REF="${STORAGE}":"${DISK_REF:-}""${!disk}"
 done
 
 msg_info "Creating OpenWrt VM"
@@ -522,8 +522,8 @@ until qm status "$VMID" | grep -q "stopped"; do
 done
 msg_info "Bridge interfaces are being added."
 qm set "$VMID" \
-  -net0 virtio,bridge="${LAN_BRG}",macaddr="${LAN_MAC}"${LAN_VLAN}"${MTU}" \
-  -net1 virtio,bridge="${BRG}",macaddr="${MAC}"${VLAN}"${MTU}" >/dev/null 2>/dev/null
+  -net0 virtio,bridge="${LAN_BRG}",macaddr="${LAN_MAC}""${LAN_VLAN}""${MTU}" \
+  -net1 virtio,bridge="${BRG}",macaddr="${MAC}""${VLAN}""${MTU}" >/dev/null 2>/dev/null
 msg_ok "Bridge interfaces have been successfully added."
 if [ "$START_VM" == "yes" ]; then
   msg_info "Starting OpenWrt VM"

@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-#  
+#
 
 function header_info {
   clear
@@ -106,7 +106,7 @@ fi
 OPTIONS=(Install "Install NetData on Proxmox VE"
   Uninstall "Uninstall NetData from Proxmox VE")
 
-CHOICE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "NetData" --menu "Select an option:" 10 58 2 \
+CHOICE=$(whiptail --backtitle "Warrens scripts" --title "NetData" --menu "Select an option:" 10 58 2 \
   "${OPTIONS[@]}" 3>&1 1>&2 2>&3)
 
 case $CHOICE in

@@ -142,7 +142,7 @@ function send_line_to_vm() {
 TEMP_DIR=$(mktemp -d)
 pushd "$TEMP_DIR" >/dev/null
 
-if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "OPNsense VM" --yesno "This will create a New OPNsense VM. Proceed?" 10 58); then
+if (whiptail --backtitle "Warrens scripts" --title "OPNsense VM" --yesno "This will create a New OPNsense VM. Proceed?" 10 58); then
   :
 else
   header_info && echo -e "⚠ User exited script \n" && exit
@@ -185,7 +185,7 @@ function arch_check() {
 function ssh_check() {
   if command -v pveversion >/dev/null 2>&1; then
     if [ -n "${SSH_CLIENT:+x}" ]; then
-      if whiptail --backtitle "Proxmox VE Helper Scripts" --defaultno --title "SSH DETECTED" --yesno "It's suggested to use the Proxmox shell instead of SSH, since SSH can create issues while gathering variables. Would you like to proceed with using SSH?" 10 62; then
+      if whiptail --backtitle "Warrens scripts" --defaultno --title "SSH DETECTED" --yesno "It's suggested to use the Proxmox shell instead of SSH, since SSH can create issues while gathering variables. Would you like to proceed with using SSH?" 10 62; then
         echo "you've been warned"
       else
         clear
@@ -253,7 +253,7 @@ function advanced_settings() {
   local ip_regex='^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$'
   METHOD="advanced"
   while true; do
-    if VMID=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Virtual Machine ID" 8 58 "$NEXTID" --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+    if VMID=$(whiptail --backtitle "Warrens scripts" --inputbox "Set Virtual Machine ID" 8 58 "$NEXTID" --title "VIRTUAL MACHINE ID" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
       if [ -z "$VMID" ]; then
         VMID="$NEXTID"
       fi
@@ -269,7 +269,7 @@ function advanced_settings() {
     fi
   done
 
-  if MACH=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "MACHINE TYPE" --radiolist --cancel-button Exit-Script "Choose Type" 10 58 2 \
+  if MACH=$(whiptail --backtitle "Warrens scripts" --title "MACHINE TYPE" --radiolist --cancel-button Exit-Script "Choose Type" 10 58 2 \
     "i440fx" "Machine i440fx" ON \
     "q35" "Machine q35" OFF \
     3>&1 1>&2 2>&3); then
@@ -286,7 +286,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if CPU_TYPE1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "CPU MODEL" --radiolist "Choose" --cancel-button Exit-Script 10 58 2 \
+  if CPU_TYPE1=$(whiptail --backtitle "Warrens scripts" --title "CPU MODEL" --radiolist "Choose" --cancel-button Exit-Script 10 58 2 \
     "0" "KVM64 (Default)" ON \
     "1" "Host" OFF \
     3>&1 1>&2 2>&3); then
@@ -301,7 +301,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if DISK_CACHE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "DISK CACHE" --radiolist "Choose" --cancel-button Exit-Script 10 58 2 \
+  if DISK_CACHE=$(whiptail --backtitle "Warrens scripts" --title "DISK CACHE" --radiolist "Choose" --cancel-button Exit-Script 10 58 2 \
     "0" "None (Default)" ON \
     "1" "Write Through" OFF \
     3>&1 1>&2 2>&3); then
@@ -316,7 +316,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if VM_NAME=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set Hostname" 8 58 OPNsense --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if VM_NAME=$(whiptail --backtitle "Warrens scripts" --inputbox "Set Hostname" 8 58 OPNsense --title "HOSTNAME" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$VM_NAME" ]; then
       HN="OPNsense"
     else
@@ -327,7 +327,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if CORE_COUNT=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Allocate CPU Cores" 8 58 4 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if CORE_COUNT=$(whiptail --backtitle "Warrens scripts" --inputbox "Allocate CPU Cores" 8 58 4 --title "CORE COUNT" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$CORE_COUNT" ]; then
       CORE_COUNT="2"
     fi
@@ -336,7 +336,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if RAM_SIZE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Allocate RAM in MiB" 8 58 8192 --title "RAM" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if RAM_SIZE=$(whiptail --backtitle "Warrens scripts" --inputbox "Allocate RAM in MiB" 8 58 8192 --title "RAM" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$RAM_SIZE" ]; then
       RAM_SIZE="8192"
     fi
@@ -345,7 +345,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if BRG=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN Bridge" 8 58 vmbr0 --title "LAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if BRG=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN Bridge" 8 58 vmbr0 --title "LAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$BRG" ]; then
       BRG="vmbr0"
     fi
@@ -358,7 +358,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if IP_ADDR=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN IP" 8 58 "$IP_ADDR" --title "LAN IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if IP_ADDR=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN IP" 8 58 "$IP_ADDR" --title "LAN IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$IP_ADDR" ]; then
       echo -e "${DGN}Using DHCP AS LAN IP ADDRESS${CL}"
     else
@@ -367,7 +367,7 @@ function advanced_settings() {
         exit
       fi
       echo -e "${DGN}Using LAN IP ADDRESS: ${BGN}$IP_ADDR${CL}"
-      if LAN_GW=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN GATEWAY IP" 8 58 "$LAN_GW" --title "LAN GATEWAY IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+      if LAN_GW=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN GATEWAY IP" 8 58 "$LAN_GW" --title "LAN GATEWAY IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
         if [ -z "$LAN_GW" ]; then
           echo -e "${DGN}Gateway needs to be set if ip is not dhcp${CL}"
           exit-script
@@ -378,7 +378,7 @@ function advanced_settings() {
         fi
         echo -e "${DGN}Using LAN GATEWAY ADDRESS: ${BGN}$LAN_GW${CL}"
       fi
-      if NETMASK=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN netmmask (24 for example)" 8 58 "$NETMASK" --title "LAN NETMASK" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+      if NETMASK=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN netmmask (24 for example)" 8 58 "$NETMASK" --title "LAN NETMASK" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
         if [ -z "$NETMASK" ]; then
           echo -e "${DGN}Netmask needs to be set if ip is not dhcp${CL}"
         fi
@@ -395,7 +395,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if WAN_BRG=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN Bridge" 8 58 vmbr1 --title "WAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if WAN_BRG=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN Bridge" 8 58 vmbr1 --title "WAN BRIDGE" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$WAN_BRG" ]; then
       WAN_BRG="vmbr1"
     fi
@@ -408,7 +408,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if WAN_IP_ADDR=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN IP" 8 58 "$WAN_IP_ADDR" --title "WAN IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if WAN_IP_ADDR=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN IP" 8 58 "$WAN_IP_ADDR" --title "WAN IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$WAN_IP_ADDR" ]; then
       echo -e "${DGN}Using DHCP AS WAN IP ADDRESS${CL}"
     else
@@ -417,7 +417,7 @@ function advanced_settings() {
         exit
       fi
       echo -e "${DGN}Using WAN IP ADDRESS: ${BGN}$WAN_IP_ADDR${CL}"
-      if WAN_GW=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN GATEWAY IP" 8 58 "$WAN_GW" --title "WAN GATEWAY IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+      if WAN_GW=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN GATEWAY IP" 8 58 "$WAN_GW" --title "WAN GATEWAY IP ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
         if [ -z "$WAN_GW" ]; then
           echo -e "${DGN}Gateway needs to be set if ip is not dhcp${CL}"
           exit-script
@@ -430,7 +430,7 @@ function advanced_settings() {
       else
         exit-script
       fi
-      if WAN_NETMASK=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN netmmask (24 for example)" 8 58 "$WAN_NETMASK" --title "WAN NETMASK" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+      if WAN_NETMASK=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN netmmask (24 for example)" 8 58 "$WAN_NETMASK" --title "WAN NETMASK" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
         if [ -z "$WAN_NETMASK" ]; then
           echo -e "${DGN}WAN Netmask needs to be set if ip is not dhcp${CL}"
         fi
@@ -446,7 +446,7 @@ function advanced_settings() {
   else
     exit-script
   fi
-  if MAC1=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a WAN MAC Address" 8 58 "$GEN_MAC" --title "WAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if MAC1=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a WAN MAC Address" 8 58 "$GEN_MAC" --title "WAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$MAC1" ]; then
       MAC="$GEN_MAC"
     else
@@ -457,7 +457,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if MAC2=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a LAN MAC Address" 8 58 "$GEN_MAC_LAN" --title "LAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
+  if MAC2=$(whiptail --backtitle "Warrens scripts" --inputbox "Set a LAN MAC Address" 8 58 "$GEN_MAC_LAN" --title "LAN MAC ADDRESS" --cancel-button Exit-Script 3>&1 1>&2 2>&3); then
     if [ -z "$MAC2" ]; then
       WAN_MAC="$GEN_MAC_LAN"
     else
@@ -468,7 +468,7 @@ function advanced_settings() {
     exit-script
   fi
 
-  if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "ADVANCED SETTINGS COMPLETE" --yesno "Ready to create OPNsense VM?" --no-button Do-Over 10 58); then
+  if (whiptail --backtitle "Warrens scripts" --title "ADVANCED SETTINGS COMPLETE" --yesno "Ready to create OPNsense VM?" --no-button Do-Over 10 58); then
     echo -e "${RD}Creating a OPNsense VM using the above advanced settings${CL}"
   else
     header_info
@@ -478,7 +478,7 @@ function advanced_settings() {
 }
 
 function start_script() {
-  if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "SETTINGS" --yesno "Use Default Settings?" --no-button Advanced 10 58); then
+  if (whiptail --backtitle "Warrens scripts" --title "SETTINGS" --yesno "Use Default Settings?" --no-button Advanced 10 58); then
     header_info
     echo -e "${BL}Using Default Settings${CL}"
     default_settings
@@ -515,7 +515,7 @@ elif [ $((${#STORAGE_MENU[@]} / 3)) -eq 1 ]; then
   STORAGE=${STORAGE_MENU[0]}
 else
   while [ -z "${STORAGE:+x}" ]; do
-    STORAGE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "Storage Pools" --radiolist \
+    STORAGE=$(whiptail --backtitle "Warrens scripts" --title "Storage Pools" --radiolist \
       "Which storage pool would you like to use for ${HN}?\nTo make a selection, use the Spacebar.\n" \
       16 $(($MSG_MAX_LENGTH + 23)) 6 \
       "${STORAGE_MENU[@]}" 3>&1 1>&2 2>&3)
