@@ -30,7 +30,6 @@ function update_script() {
   $STD apt-get -y upgrade
   $STD apt-get -y --with-new-pkgs upgrade jellyfin jellyfin-server
 msg_ok "Updated ${APP} LXC"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/ct/nvidia.sh)"
 exit
 }
 
@@ -44,3 +43,4 @@ echo -e "${INFO}${YW} Access it using the following URL:${CL}"
 echo -e "${TAB}${GATEWAY}${BGN}http://${IP}:8096${CL}"
 echo "now type pct enter $CTID"
 echo "then copy and paste removing the $: $bash -c "$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/ct/nvidia.sh)""
+pct exec $CTID -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/waz000000/proxmox/refs/heads/main/ct/nvidia.sh)"
