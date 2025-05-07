@@ -540,7 +540,7 @@ advanced_settings() {
   fi
 
   while true; do
-    NET=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a Static IPv4 CIDR Address (/24)" 192.168.68.*/24 dhcp --title "IP ADDRESS" 3>&1 1>&2 2>&3)
+    NET=$(whiptail --backtitle "Proxmox VE Helper Scripts" --inputbox "Set a Static IPv4 CIDR Address (/24)" 192.168.68. --title "IP ADDRESS" 3>&1 1>&2 2>&3)
     exit_status=$?
     if [ $exit_status -eq 0 ]; then
       if [ "$NET" = "dhcp" ]; then
